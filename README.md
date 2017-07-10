@@ -1,79 +1,79 @@
-# Watson Diet Trainer
-
-## 更新履歴
-### version 3.0.0
-* watson-speech.min.js v ???
-* STT
-
-
-### version 2.0.0
-* テキスト読み上げの対応ブラウザを増やすため、Watson Text To Speech から Speech Synthesis API に変更しました。
-* クライアント HTML および JavaScript は ES6 未対応 (PC Chrome、Firefox、Safari、iOS Chrome、Firefox、Safari で同じ動作にならなかったため。)
-* IE 対応 (アロー関数非対応、連続する ajax で 一部 502 エラーが発生)
+# Q&A Chatbot
 
 ## はじめに  
-「さわってみようWatson on Bluemix」(IBM) の Node-RED のアプリをベースに、次の変更をしました。
-* Node-RED から Node.js に移植しました。
-* Dialog の廃止に伴い、当該機能を削除しました。
-* 質問 (テキスト) 以外にローカルの日時をサーバに送信、general-hello クラスの「おはよう」(5〜11時)、「こんにちは」(11〜17時)、「こんばんは」(17時〜24時)、「お疲れ様です」(0〜5時) の出し分けを追加しました。
-* Text to Speech によるテキストの読上げ機能を追加しました。(PC の Chrome、Firefox に対応)  
-* Google Speech API による音声認識機能を追加しました。(PC の Chrome に対応)  
-* 管理機能を追加しました。
-    - コンテンツ参照
-    - トレーニングデータ抽出
-    - Natural Language Classifier 操作用GUI
+* このアプリは、Bluemix Cloud Foundry 上で稼動する「一問一答形式のチャットボット」です。
+* 任意のブラウザーから使用できますが、音声認識と音声合成 (テキストの読み上げ) は PC 版の Firefox または Chrome のみ対応しております。
 
 ## 使い方  
-* Chatbot は次のURLにアクセスしてください。
-  - https://watson-diet-trainer.au-syd.mybluemix.net/
+* 任意のブラウザーで以下のURLにアクセスしてください。
+  - https://qa-chatbot.eu-gb.mybluemix.net/
+* ダイエットに関する Q&A を学習させております。質問の例を以下に示します。 
+  - 食事に制限がない方法でダイエットしたい。
+  - ダイエットする方法を何か教えてください。
+  - 小顔になるにはどうすればいいですか?
+* あいさつの場合は時刻により回答が変わります。
+  - 5〜11時: おはよう
+  - 11〜17時: こんにちは
+  - 17時〜24時: こんばんは
+  - 0〜5時: お疲れ様です
 
 ## セットアップ
-1. 本サイトから watson-diet-trainer アプリをダウンロード (Download ZIP) して解凍してください。ディレクトリ名は watson-diet-trainer-master から watson-diet-trainer に変更してください。
+このアプリをご自身の Bluemix 環境にセットアップする手順を以下に示します。
 
-1. Bluemix コンソールから CFアプリケーション (Node.js) を作成してください。以下の ippei0605 はご自身のユーザ名などに変更してください。  
-アプリケーション名: watson-diet-trainer-ippei0605 (任意)  
+1. qa-chatbot アプリを PC にダウンロード (Download ZIP) して解凍してください。ディレクトリ名は qa-chatbot-master から qa-chatbot に変更してください。
 
-    > 以降、watson-diet-trainer-ippei0605 で説明します。
+1. Bluemix コンソールにログインしてください。ここでは以下の条件で説明します。ご自身のアカウント情報に読替えて手順を進めてください。
+  - 地域: 英国
+  - 組織: jiec_rd
+  - スペース: dev
 
-1. CF および Bluemix コマンド・ライン・インターフェースをインストールしていない場合は、インストールしてください。 (Mac OS Sierra は CF v6.22.0以上にしないとコマンドの実行途中でフリーズします。)
+1. Bluemix コンソールで Cloud Foundry アプリ「SDK for Node.js™」を作成してください。以下の ippei0605 はご自身のユーザ名などに変更してください。
+アプリケーション名: qa-chatbot-ippei0605 (任意、前述の URL と同じ名前にならないようにしています。)
+    > 以降、qa-chatbot-ippei0605 で説明します。
 
-1. Cloudant NoSQL DB を作成し、watson-diet-trainer-ippei0605 にバインドしてください。  
-サービス名: 任意  
-プラン: 任意 (デモアプリは Lite を選択)  
+1. PC に Bluemix コマンド・ライン・インターフェースをインストールしていない場合は、インストールしてください。Bluemix コンソール、アプリケーション内の開始 (Getting Started) メニューからダウンロードすることができます。
 
-1. Natural Language Classifier を作成し、watson-diet-trainer-ippei0605 にバインドしてください。  
-サービス名: 任意  
+1. Bluemix コンソールで、Cloudant NoSQL DB をサービスを作成し、qa-chatbot-ippei0605 にバインドしてください。
+  - サービス名: 任意  
+  - プラン: 任意 (私は「Lite」を選択しました。)  
 
-1. Text to Speech を作成し、watson-diet-trainer-ippei0605 にバインドしてください。  
-サービス名: 任意 
+1. Bluemix コンソールで、Natural Language Classifier サービスを作成し、qa-chatbot-ippei0605 にバインドしてください。
+  - サービス名: 任意  
+  - プラン: 任意 (私は「標準」を選択しました。)  
 
-1. 解凍したディレクトリ (watson-diet-trainer アプリのホーム) に移動してください。
+1. Bluemix コンソールで、Speech To Text サービスを作成し、qa-chatbot-ippei0605 にバインドしてください。
+  - サービス名: 任意  
+  - プラン: 任意 (私は「標準」を選択しました。)  
 
-        > cd watson-diet-trainer
+1. Bluemix コンソールで、Text to Speech サービスを作成し、qa-chatbot-ippei0605 にバインドしてください。  
+  - サービス名: 任意 
+  - プラン: 任意 (私は「標準」を選択しました。)  
 
-1. Bluemixに接続してください。
+1. PC のターミナルソフトを起動してください。 (私は IntelliJ IDEA や Eclipse のターミナルを使っていますが、Windows の cmd 、Mac の　ターミナルなどで操作できます。)
 
-        > bluemix api https://api.au-syd.bluemix.net
-    
-1. Bluemix にログインしてください。
+1. ターミナルで、解凍したディレクトリ (qa-chatbot アプリのホーム) に移動してください。(コマンドは以下、$ はコマンドプロンプトです。)
+    ```
+    $ cd qa-chatbot
+    ```
 
-        > bluemix login -u ippei0605@gmail.com -o jiec_gitou -s dev
+1. ターミナルで、Bluemix にログインしてください。前述の条件の通り、エンドポイントが英国になっていることに注意してください。
+    ```
+    $ bx login -a https://api.eu-gb.bluemix.net
+    ```
 
-1. アプリをデプロイしてください。
+1. ターミナルで、アプリをデプロイしてください。
+    ```
+    $ bx app push qa-chatbot-ippei0605
+    ```
 
-        > cf push watson-diet-trainer-ippei0605
-                
-1. Classifier を作成します。(トレーニング) ここまでの手順でコンテンツは Cloudant にロード済みです。次にアクセスしてください。
-        
-        > https://watson-diet-trainer-ippei0605.au-syd.mybluemix.net/maintenance.html
+1. 15分程で Q&A の学習が完了します。
+  1. Bluemix コンソールで、Natural Language Classifier の管理画面から「Natural Language Classifier Toolkit (beta)」をクリックしてください。
+  1. Sign in with Bluemix をクリックしてください。
+  1. 以下のように Avairable となっていれば学習完了です。  
+    ![Classifierの状態](docs/classifier-status.png)
 
-    * Database メニューで export training-csv を選択、ダウンロードボタンをクリックしてください。
-    * Classifier メニューをクリックしてください。
-    * Create classifier でファイルをアップロード、確認ダイアログで OK をクリックしてください。Classifier が Training 状態でリストに追加されます。Available になるまで15分程度かかります。 
-
-1. Bluemix コンソールから CF アプリの環境変数 (ユーザー定義) を設定します。次の変数を設定してください。
-    * CLASSIFIER_ID : 前の手順でトレーニングした classifier_id の値をセット
-
+1. ブラウザーから以下の URL にアクセスしてください。
+  - https://qa-chatbot-ippei0605.eu-gb.mybluemix.net/
 
 ## ファイル構成  
 ```
@@ -83,6 +83,8 @@ qa-chatbot
 ├── README.md                       本書
 ├── app.js                          アプリ
 ├── gulpfile.js                     開発用タスク
+├── docs
+│   └── classifier-status.png       README.md の
 ├── install
 │   ├── answer.json                 データ
 │   ├── classifier.csv              NLC トレーニングのデータ
@@ -92,13 +94,13 @@ qa-chatbot
 │   └── qa.js                       モデル
 ├── package.json
 ├── public
-│   ├── bundle.min.css              結合・最小化した CSS
-│   ├── bundle.min.js               結合・最小化した JavaScript
+│   ├── bundle.min.css              gulp で結合・最小化した CSS
+│   ├── bundle.min.js               gulp で結合・最小化した JavaScript
 │   ├── dev
 │   │   ├── chatbot.css             開発用 CSS
-│   │   ├── index.js
-│   │   ├── mybootstrap.css
-│   │   └── watson-speech.min.js    speech-javascript-sdk *1
+│   │   ├── index.js                開発用 クライアント JavaScript
+│   │   ├── mybootstrap.css         開発用 CSS
+│   │   └── watson-speech.min.js    speech-javascript-sdk (*1)
 │   ├── favicon.ico
 │   └── watson_black_animate.gif
 ├── routes
@@ -109,14 +111,12 @@ qa-chatbot
     └── index.ejs                   画面
 ```
 
-https://github.com/watson-developer-cloud/speech-javascript-sdk/releases
-v0.33.1 を配置した。
-
+> (*1) https://github.com/watson-developer-cloud/speech-javascript-sdk/releases から v0.33.1 を配置しました。
 
 ## データベース  
 * データベース名: answer
 * デザイン文書
-  - _design/answers/list : 一覧表示 (ビュー) に使用
+  - _design/answers/list : 一覧表示 (ビュー) に使用します。
 * 文書構成
   - アプリ設定文書
   
@@ -138,12 +138,24 @@ v0.33.1 を配置した。
 ## ルート (URLマッピング)  
 |Action             |Method|処理|
 |-------------------|------|----------------------|
-|/                  |GET   |Chatbot 画面を表示する。|
-|/ask               |GET   |Natural Language Classifier で質問をクラス分類して、回答を返す。|
-|/ask-classname     |GET   |クラス名指定により回答を返す。(定型文に使用)|
-|/use-watson-speech |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返す。|
+|/                  |GET   |Chatbot 画面を表示します。|
+|/ask               |GET   |Natural Language Classifier で質問をクラス分類して、回答を返します。|
+|/ask-classname     |GET   |クラス名指定により回答を返します。(定型文に使用)|
+|/use-watson-speech |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返します。|
 
-## まとめ
-* 現時点では、Dialog による段階的な会話 (選択肢) による最適解を探す機能を削除したため、Natural Language Classifier の分類による一発回答の Chatbot です。
-* 時刻以外に位置情報などを送信することで、「ここはどこ？」「近くのおすすめランチを教えて？」などの質問にも回答できるようになると思います。(位置情報を送信するのであれば、現在時刻はタイムゾーンとサーバ GMT を使用する方がクライアント負荷が軽減できて良いかもしれません。)
-* 今後、Conversation の組込みを検討します。
+## 開発支援
+### クライアント JavaScript と CSS
+* 開発用の JavaScript と CSSは public/dev に保存しております。
+* view/index.ejs からは 上記を結合・最小化した bundle.min.css および bundle.min.js を参照しております、
+* 変更する場合は、開発用ディレクトリのソースを変更した後に、以下のコマンドで結合・最小化をしてください。詳細は package.json および gulpfile.js を確認してください。 (JavaScript の最小化は gulp プラグインが ES6 未対応のため babili を使用)
+
+    ```
+    $ npm run build
+    ```
+
+### JSDoc
+* 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
+
+    ```
+    $ npm run doc
+    ```
