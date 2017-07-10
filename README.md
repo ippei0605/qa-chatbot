@@ -165,7 +165,10 @@ qa-chatbot
 |/use-watson-speech |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返します。|
 
 ## 開発支援
-* 以下を実施するためには、PC に Node.js が必要です。
+このアプリを改造するためのヒントを以下に示します。
+
+### 前提条件
+* PC に Node.js が必要です。
 * ネットワークに Proxy を使用している場合は npm が Proxy 経由で実行できるように設定してください。(環境変数または npm config)
 * node_modules をダウンロードします。以下のコマンドを実行してください。
 
@@ -174,6 +177,15 @@ qa-chatbot
     ```
 
     > この時、ネットワークに Proxy を使用している場合は install/postinstall.js でエラーが発生します。しかし、上記のセットアップ手順でデータ登録と学習は完了していますので無視してください。
+
+### ローカル環境での実行
+* ネットワークに Proxy を使用している場合は実行できません。
+* PC に 環境変数 VCAP_SERVICES を設定してください。 (値は Bluemix 環境と同値、改行は除く)
+* 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
+
+    ```
+    $ npm start
+    ```
 
 ### クライアント JavaScript と CSS
 * 開発用の JavaScript と CSSは public/dev に保存しております。
@@ -190,12 +202,4 @@ qa-chatbot
     ```
     $ npm run doc
     ```
-
-### ローカル環境での実行
-* ネットワークに Proxy を使用している場合は実行できません。
-* PC に 環境変数 VCAP_SERVICES を設定してください。 (値は Bluemix 環境と同値、改行は除く)
-* 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
-
-    ```
-    $ npm start
-    ```
+    
