@@ -75,6 +75,27 @@
 1. ブラウザーから以下の URL にアクセスしてください。
   - https://qa-chatbot-ippei0605.eu-gb.mybluemix.net/
 
+
+## Bluemix 構成
+### ランタイム
+|ビルドパック|インスタンス|メモリー|
+|-----------|---------:|------:|
+|SDK for Node.js™|1|256MB|
+
+### 環境変数
+|名前             |設定                                                      |デフォルト(未設定)|
+|----------------|----------------------------------------------------------|---------------------------|
+|CLASSIFIER_ID   |Natural Language Classifier の Classifier ID に 設定値を使用|最新の Classifier の IDを使用|
+|CUSTOMIZATION_ID|Speech To Text の Customization ID に設定値を使用           |標準モデルを使用|
+
+### サービス
+|名前     |プラン|用途  |
+|---------|-----|-----|
+|[Cloudant NoSQL DB](https://console.bluemix.net/catalog/services/cloudant-nosql-db?env_id=ibm:yp:eu-gb&taxonomyNavigation=services)|Lite|データベース|
+|[Natural Language Classifier](https://console.bluemix.net/catalog/services/natural-language-classifier?env_id=ibm:yp:eu-gb&taxonomyNavigation=apps)|標準|テキストのクラス分類|
+|[Speech To Text](https://console.bluemix.net/catalog/services/speech-to-text?env_id=ibm:yp:eu-gb&taxonomyNavigation=services)|標準|音声認識
+|[Text to Speech](https://console.bluemix.net/catalog/services/text-to-speech?env_id=ibm:yp:eu-gb&taxonomyNavigation=services)|標準|音声合成 (テキスト読上げ)
+
 ## ファイル構成  
 ```
 qa-chatbot
@@ -137,13 +158,23 @@ qa-chatbot
 
 ## ルート (URLマッピング)  
 |Action             |Method|処理|
-|-------------------|------|----------------------|
+|-------------------|------|------------------------|
 |/                  |GET   |Chatbot 画面を表示します。|
 |/ask               |GET   |Natural Language Classifier で質問をクラス分類して、回答を返します。|
 |/ask-classname     |GET   |クラス名指定により回答を返します。(定型文に使用)|
 |/use-watson-speech |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返します。|
 
 ## 開発支援
+* 以下を実施するためには、PC に Node.js が必要です。
+* ネットワークに Proxy を使用している場合は npm が Proxy 経由で実行できるように設定してください。(環境変数または npm config)
+* node_modules をダウンロードします。以下のコマンドを実行してください。
+
+    ```
+    $ npm install
+    ```
+
+    > この時、ネットワークに Proxy を使用している場合は install/postinstall.js でエラーが発生します。しかし、上記のセットアップ手順でデータ登録と学習は完了していますので無視してください。
+
 ### クライアント JavaScript と CSS
 * 開発用の JavaScript と CSSは public/dev に保存しております。
 * view/index.ejs からは 上記を結合・最小化した bundle.min.css および bundle.min.js を参照しております、
@@ -158,4 +189,13 @@ qa-chatbot
 
     ```
     $ npm run doc
+    ```
+
+### ローカル環境での実行
+* ネットワークに Proxy を使用している場合は実行できません。
+* PC に 環境変数 VCAP_SERVICES を設定してください。 (値は Bluemix 環境と同値、改行は除く)
+* 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
+
+    ```
+    $ npm start
     ```
