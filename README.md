@@ -167,7 +167,25 @@ qa-chatbot
 ## 開発支援
 このアプリを改造するためのヒントを以下に示します。
 
-### 前提条件
+### データの変更
+* コンテンツ (回答データ) を変更する手順を以下に示します。
+  - Bluemix コンソールから、Cloudant NoSQL DB サービスをクリック、Cloudant Dashboard を起動してください。
+  - データ登録には以下の2通りの方法がございます。
+    1. Cloudant Dashboard で直接データを編集します。
+    1. Cloudant Dashboard でデータベースを削除、install/answer.json ファイルを編集して、アプリを再度プッシュします。
+* 詳しくは、package.json および install/postinstall.js を確認してください。
+
+### 機械学習
+* コンテンツ (回答データ) を変更する手順を以下に示します。
+  - Bluemix コンソールから、Natural Language Classifier サービスをクリック、Natural Language Classifier Toolkit (beta) を起動してください。
+  - 不要な Classifier があれば削除してください。
+  - 機械学習には以下の2通りの方法がございます。
+    1. Natural Language Classifier Toolkit (beta) の Training data 画面で学習データをアップロードして、Create Classifier してください。学習データは、"質問","クラス"の2項目からなるCSVファイルです。install/classifier.csv を参考にしてください。
+    1. install/classifier.csv を編集して、アプリを再度プッシュします。
+* 詳しくは、package.json および install/postinstall.js を確認してください。
+
+### プログラムの変更
+#### 前提条件
 * PC に Node.js が必要です。
 * ネットワークに Proxy を使用している場合は npm が Proxy 経由で実行できるように設定してください。(環境変数または npm config)
 * node_modules をダウンロードします。以下のコマンドを実行してください。
@@ -178,7 +196,7 @@ qa-chatbot
 
     > この時、ネットワークに Proxy を使用している場合は install/postinstall.js でエラーが発生します。しかし、上記のセットアップ手順でデータ登録と学習は完了していますので無視してください。
 
-### ローカル環境での実行
+#### ローカル環境での実行
 * ネットワークに Proxy を使用している場合は実行できません。
 * PC に 環境変数 VCAP_SERVICES を設定してください。 (値は Bluemix 環境と同値、改行は除く)
 * 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
@@ -187,7 +205,7 @@ qa-chatbot
     $ npm start
     ```
 
-### クライアント JavaScript と CSS
+#### クライアント JavaScript と CSS
 * 開発用の JavaScript と CSSは public/dev に保存しております。
 * view/index.ejs からは 上記を結合・最小化した bundle.min.css および bundle.min.js を参照しております、
 * 変更する場合は、開発用ディレクトリのソースを変更した後に、以下のコマンドで結合・最小化をしてください。詳細は package.json および gulpfile.js を確認してください。 (JavaScript の最小化は gulp プラグインが ES6 未対応のため babili を使用)
@@ -196,7 +214,7 @@ qa-chatbot
     $ npm run build
     ```
 
-### JSDoc
+#### JSDoc
 * 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
 
     ```
