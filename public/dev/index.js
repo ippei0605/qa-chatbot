@@ -166,12 +166,10 @@ $(function () {
 
     // 音声認識ボタンクリック
     sttId.on('click', function () {
+        recording = !recording;
         if (recording) {
-            if (stream) {
-                stream.stop();
-            }
             qId.focus();
-        } else {
+
             let param = {
                 token: watsonSpeechContext.stt.token,
                 model: 'ja-JP_BroadbandModel',
@@ -183,10 +181,15 @@ $(function () {
             stream = WatsonSpeech.SpeechToText.recognizeMicrophone(param);
 
             stream.on('error', function (err) {
-                console.log(err);
+                console.log('error', err);
+                recording = false;
+                sttId.html(recordIconTag[recording]);
             });
+        } else {
+            if (stream) {
+                stream.stop();
+            }
         }
-        recording = !recording;
         sttId.html(recordIconTag[recording]);
     });
 
