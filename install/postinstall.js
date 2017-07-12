@@ -1,5 +1,5 @@
 /**
- * @file Watson Diet Trainer: インストール後処理 (package.json の scripts.postinstall で実行するように設定)
+ * @file Q&A Chatbot: インストール後処理 (package.json の scripts.postinstall で実行するように設定)
  *
  * <pre>
  * 1. データベース「answer」が無い場合、次の処理を実行する。

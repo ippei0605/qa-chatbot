@@ -1,5 +1,5 @@
 /**
- * @file Watson Diet Trainer: クライアント JavaScript
+ * @file Q&A Chatbot: クライアント JavaScript
  *
  * <pre>
  * 起動方法:

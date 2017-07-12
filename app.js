@@ -1,5 +1,5 @@
 /**
- * @file Watson Diet Trainer: アプリ
+ * @file Q&A Chatbot: アプリ
  *
  * <pre>
  * 起動方法:

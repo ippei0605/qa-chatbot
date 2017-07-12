@@ -1,5 +1,5 @@
 /**
- * Watson Diet Trainer: ルーティング
+ * Q&A Chatbot: ルーティング
  *
  * @module routes/index
  * @author Ippei SUZUKI

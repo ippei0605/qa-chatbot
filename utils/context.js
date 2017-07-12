@@ -1,5 +1,5 @@
 /**
- * Watson Diet Trainer: コンテキスト
+ * Q&A Chatbot: コンテキスト
  *
  * @module utils/context
  * @author Ippei SUZUKI

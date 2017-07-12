@@ -1,5 +1,5 @@
 /**
- * Watson Diet Trainer: モデル
+ * Q&A Chatbot: モデル
  *
  * @module models/qa
  * @author Ippei SUZUKI
