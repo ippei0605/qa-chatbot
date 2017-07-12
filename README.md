@@ -1,56 +1,70 @@
 # Q&A Chatbot
 
-## はじめに  
-* このアプリは、Bluemix Cloud Foundry 上で稼動する「一問一答形式のチャットボット」です。
-* 任意のブラウザーから使用できますが、音声認識と音声合成 (テキストの読み上げ) は PC 版の Firefox または Chrome のみ対応しております。
+## はじめに
+このアプリはダイエットに関する質問に AI が回答する「一問一答形式のチャットボット」です。
 
-## 使い方  
-* 任意のブラウザーで以下のURLにアクセスしてください。
-  - https://qa-chatbot.eu-gb.mybluemix.net/
-* ダイエットに関する Q&A を学習させております。質問の例を以下に示します。 
-  - 食事に制限がない方法でダイエットしたい。
-  - ダイエットする方法を何か教えてください。
-  - 小顔になるにはどうすればいいですか?
-* あいさつの場合は時刻により回答が変わります。
-  - 5〜11時: おはよう
-  - 11〜17時: こんにちは
-  - 17時〜24時: こんばんは
-  - 0〜5時: お疲れ様です
+## 使い方
+* ブラウザーで以下のURLにアクセスしてください。
+    - https://qa-chatbot.eu-gb.mybluemix.net/
 
-|トップページ|回答結果|音声認識|
-|----|----|----|
-|![図1](docs/fig-1.png)|![図2](docs/fig-2.png)|![図3](docs/fig-3.png)|
+    ![図1](docs/fig-1.png)
 
+    > 音声認識、音声合成 (テキストの読上げ) は PC の Firefox および Chrome のみ対応しております。
 
-## セットアップ
-このアプリをご自身の Bluemix 環境にセットアップする手順を以下に示します。
+* 質問をしてみてください。質問の例を以下に示します。 
+    - 食事に制限がない方法でダイエットしたい。
+    - ダイエットする方法を何か教えてください。
+    - 小顔になるにはどうすればいいですか？
+
+    ![図2](docs/fig-2.png)
+
+* 音声認識ができます。
+
+    ![図3](docs/fig-3.png)
+
+* サービス時間は 9:00〜21:00 です。サービス時間外はアプリを停止しております。
+    - あいさつの場合は時刻により回答が変わります。  
+        - 5〜11時: おはよう
+        - 11〜17時: こんにちは
+        - 17時〜24時: こんばんは
+        - 0〜5時: お疲れ様です (サービス時間外ですが、PCの時刻を変更することで確認できます。) 
+
+## 開発者向け情報
+このアプリはBluemix Cloud Foundry の SDK for Node.js™ で稼動しております。ここからは Bluemix の知識がある開発者向けの情報を示します。
+
+### セットアップ
+このアプリをご自身の Bluemix 環境にセットアップする手順を以下に示します。 Bluemix コンソール (ブラウザー) とターミナルソフトでの Bluemix コマンドの操作が必要になります。
 
 1. qa-chatbot アプリを PC にダウンロード (Download ZIP) して解凍してください。ディレクトリ名は qa-chatbot-master から qa-chatbot に変更してください。
 
 1. Bluemix コンソールにログインしてください。ここでは以下の条件で説明します。ご自身のアカウント情報に読替えて手順を進めてください。
+    - アカウント: JIEC Co., Ltd.
     - 地域: 英国
     - 組織: jiec_rd
     - スペース: dev
 
-1. Bluemix コンソールで Cloud Foundry アプリ「SDK for Node.js™」を作成してください。以下の ippei0605 はご自身のユーザ名などに変更してください。
-アプリケーション名: qa-chatbot-ippei0605 (任意、前述の URL と同じ名前にならないようにしています。)
-    > 以降、qa-chatbot-ippei0605 で説明します。
+1. Bluemix コンソールで Cloud Foundry アプリ「SDK for Node.js™」を作成してください。
+    - アプリケーション名: B20-O970605-qa-chatbot (任意、同じ地域で名前が重複しないように接頭語や接尾語を付けてください。)
+        
+        > 以降、B20-O970605-qa-chatbot で説明します。  
+        > なお、作成されるアプリの URL は https://b20-o970605-qa-chatbot.eu-gb.mybluemix.net/ になります。  
+        > (サブドメイン 英国: eu-gb, シドニー: au-syd, ドイツ: eu-de, 米国南部: なし)
 
 1. PC に Bluemix コマンド・ライン・インターフェースをインストールしていない場合は、インストールしてください。Bluemix コンソール、アプリケーション内の開始 (Getting Started) メニューからダウンロードすることができます。
 
-1. Bluemix コンソールで、Cloudant NoSQL DB をサービスを作成し、qa-chatbot-ippei0605 にバインドしてください。
+1. Bluemix コンソールで、Cloudant NoSQL DB をサービスを作成し、B20-O970605-qa-chatbot にバインドしてください。
     - サービス名: 任意  
     - プラン: 任意 (私は「Lite」を選択しました。)  
 
-1. Bluemix コンソールで、Natural Language Classifier サービスを作成し、qa-chatbot-ippei0605 にバインドしてください。
+1. Bluemix コンソールで、Natural Language Classifier サービスを作成し、B20-O970605-qa-chatbot にバインドしてください。
     - サービス名: 任意  
     - プラン: 任意 (私は「標準」を選択しました。)  
 
-1. Bluemix コンソールで、Speech To Text サービスを作成し、qa-chatbot-ippei0605 にバインドしてください。
+1. Bluemix コンソールで、Speech To Text サービスを作成し、B20-O970605-qa-chatbot にバインドしてください。
     - サービス名: 任意  
     - プラン: 任意 (私は「標準」を選択しました。)  
 
-1. Bluemix コンソールで、Text to Speech サービスを作成し、qa-chatbot-ippei0605 にバインドしてください。  
+1. Bluemix コンソールで、Text to Speech サービスを作成し、B20-O970605-qa-chatbot にバインドしてください。  
     - サービス名: 任意 
     - プラン: 任意 (私は「標準」を選択しました。)  
 
@@ -61,39 +75,48 @@
     $ cd qa-chatbot
     ```
 
-1. ターミナルで、Bluemix にログインしてください。前述の条件の通り、エンドポイントが英国になっていることに注意してください。
+1. ターミナルで、Bluemix にログインしてください。前述の条件の通り、エンドポイントが英国 (eu-gb) になっていることに注意してください。
     ```
     $ bx login -a https://api.eu-gb.bluemix.net
     ```
 
-1. ターミナルで、アプリをデプロイしてください。
-    ```
-    $ bx app push qa-chatbot-ippei0605
-    ```
+    > Email、Password の入力が要求されます。  
+    > 次いで、アカウント、組織、スペースは数値で選択します。(1つしかない場合は要求されません。)
 
-1. 15分程で Q&A の学習が完了します。
-  1. Bluemix コンソールで、Natural Language Classifier の管理画面から「Natural Language Classifier Toolkit (beta)」をクリックしてください。
-  1. Sign in with Bluemix をクリックしてください。
-  1. 以下のように Avairable となっていれば学習完了です。  
-    ![Classifierの状態](docs/classifier-status.png)
+1. ターミナルで、アプリをプッシュしてください。
+    ```
+    $ bx app push B20-O970605-qa-chatbot
+    ```
+    - インストール後に自動的に以下を実行します。
+        1. データベースにデータ (設計文書、アプリ設定、コンテンツ) を登録します。
+        1. Q&A の機械学習を実施します。
+            - 15分程で機械学習が完了します。確認方法を以下に示します。
+                1. Bluemix コンソールで、Natural Language Classifier の管理画面から「Natural Language Classifier Toolkit (beta)」をクリックしてください。  
+                ![Toolkit](docs/fig-4.png)
+                1. Sign in with Bluemix をクリックしてください。  
+                ![Sign](docs/btn-1.png)
+                1. 以下のように Avairable となっていれば学習完了です。  
+                ![Classifierの状態](docs/classifier-status.png)
 
 1. ブラウザーから以下の URL にアクセスしてください。
-  - https://qa-chatbot-ippei0605.eu-gb.mybluemix.net/
+    - https://B20-O970605-qa-chatbot.eu-gb.mybluemix.net/
+    ![console](docs/fig-5.png)
 
-
-## Bluemix 構成
-### ランタイム
+### Bluemix 構成
+#### ランタイム
 |ビルドパック|インスタンス|メモリー|
 |-----------|---------:|------:|
 |SDK for Node.js™|1|256MB|
 
-### 環境変数
-|名前             |設定                                                      |デフォルト(未設定)|
-|----------------|----------------------------------------------------------|---------------------------|
-|CLASSIFIER_ID   |Natural Language Classifier の Classifier ID に 設定値を使用|最新の Classifier の IDを使用|
-|CUSTOMIZATION_ID|Speech To Text の Customization ID に設定値を使用           |標準モデルを使用|
+#### 環境変数
+環境変数を設定することでアプリの動作を変更することができます。未設定の場合はデフォルトの動作をします。
 
-### サービス
+|名前             |必須|設定                                                      |デフォルト(未設定)|
+|----------------|----|----------------------------------------------------------|---------------------------|
+|CLASSIFIER_ID   |    |Natural Language Classifier の Classifier ID を指定します。 |最新の Classifier ID を使用します。|
+|CUSTOMIZATION_ID|    |Speech To Text の Customization ID を指定します。           |標準モデルを使用します。      |
+
+#### サービス
 |名前     |プラン|用途  |
 |---------|-----|-----|
 |[Cloudant NoSQL DB](https://console.bluemix.net/catalog/services/cloudant-nosql-db?env_id=ibm:yp:eu-gb&taxonomyNavigation=services)|Lite|データベース|
@@ -101,7 +124,8 @@
 |[Speech To Text](https://console.bluemix.net/catalog/services/speech-to-text?env_id=ibm:yp:eu-gb&taxonomyNavigation=services)|標準|音声認識
 |[Text to Speech](https://console.bluemix.net/catalog/services/text-to-speech?env_id=ibm:yp:eu-gb&taxonomyNavigation=services)|標準|音声合成 (テキスト読上げ)
 
-## ファイル構成  
+### アプリ構成
+#### ファイル構成  
 ```
 qa-chatbot
 ├── .cfignore
@@ -109,8 +133,7 @@ qa-chatbot
 ├── README.md                       本書
 ├── app.js                          アプリ
 ├── gulpfile.js                     開発用タスク
-├── docs
-│   └── classifier-status.png       README.md の
+├── docs                            README.md が参照する図表などの文書を保存
 ├── install
 │   ├── answer.json                 データ
 │   ├── classifier.csv              NLC トレーニングのデータ
@@ -139,7 +162,7 @@ qa-chatbot
 
 > (*1) https://github.com/watson-developer-cloud/speech-javascript-sdk/releases から v0.33.1 を配置しました。
 
-## データベース  
+#### データベース  
 * データベース名: answer
 * デザイン文書
   - _design/answers/list : 一覧表示 (ビュー) に使用します。
@@ -161,7 +184,7 @@ qa-chatbot
 
     > データは install/answer.json です。
 
-## ルート (URLマッピング)  
+#### ルート (URLマッピング)  
 |Action             |Method|処理|
 |-------------------|------|------------------------|
 |/                  |GET   |Chatbot 画面を表示します。|
@@ -169,29 +192,31 @@ qa-chatbot
 |/ask-classname     |GET   |クラス名指定により回答を返します。(定型文に使用)|
 |/use-watson-speech |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返します。|
 
-## 開発支援
-このアプリを改造するためのヒントを以下に示します。
+### 開発支援
+このアプリを改造するためのヒントを示します。 アプリは Node.js で記述しておりますので、まずは package.json でスクリプトや依存モジュールを確認してください。
 
-### データの変更
-* コンテンツ (回答データ) を変更する手順を以下に示します。
+#### データの変更
+* コンテンツ (質問と回答) を変更する手順を以下に示します。
   - Bluemix コンソールから、Cloudant NoSQL DB サービスをクリック、Cloudant Dashboard を起動してください。
   - データ登録には以下の2通りの方法がございます。
     1. Cloudant Dashboard で直接データを編集します。
     1. Cloudant Dashboard でデータベースを削除、install/answer.json ファイルを編集して、アプリを再度プッシュします。
-* 詳しくは、package.json および install/postinstall.js を確認してください。
+* 詳しくは、[install/postinstall.js # createDatabase()](https://github.com/ippei0605/qa-chatbot/blob/master/install/postinstall.js#L74-L75) を確認してください。
 
-### 機械学習
-* コンテンツ (回答データ) を変更する手順を以下に示します。
+#### 機械学習
+* 質問と回答の結び付きを AI に学習させることで応答させることができます。機械学習の手順を以下に示します。
   - Bluemix コンソールから、Natural Language Classifier サービスをクリック、Natural Language Classifier Toolkit (beta) を起動してください。
   - 不要な Classifier があれば削除してください。
   - 機械学習には以下の2通りの方法がございます。
     1. Natural Language Classifier Toolkit (beta) の Training data 画面で学習データをアップロードして、Create Classifier してください。学習データは、"質問","クラス"の2項目からなるCSVファイルです。install/classifier.csv を参考にしてください。
     1. install/classifier.csv を編集して、アプリを再度プッシュします。
-* 詳しくは、package.json および install/postinstall.js を確認してください。
+* 詳しくは、[install/postinstall.js # createClassifier()](https://github.com/ippei0605/qa-chatbot/blob/master/install/postinstall.js#L94-L95)を確認してください。
 
-### プログラムの変更
-#### 前提条件
+#### プログラムの変更
+##### 前提条件
+* ローカル環境での作業を前提としております。
 * PC に Node.js が必要です。
+* 任意のテキストエディタ (Atom など) や IDE を使用してください。
 * ネットワークに Proxy を使用している場合は npm が Proxy 経由で実行できるように設定してください。(環境変数または npm config)
 * node_modules をダウンロードします。以下のコマンドを実行してください。
 
@@ -201,28 +226,28 @@ qa-chatbot
 
     > この時、ネットワークに Proxy を使用している場合は install/postinstall.js でエラーが発生します。しかし、上記のセットアップ手順でデータ登録と学習は完了していますので無視してください。
 
-#### ローカル環境での実行
+##### ローカル環境での実行
 * ネットワークに Proxy を使用している場合は実行できません。
 * PC に 環境変数 VCAP_SERVICES を設定してください。 (値は Bluemix 環境と同値、改行は除く)
-* 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
 
     ```
     $ npm start
     ```
 
-#### クライアント JavaScript と CSS
+##### クライアント JavaScript と CSS
 * 開発用の JavaScript と CSSは public/dev に保存しております。
 * view/index.ejs からは 上記を結合・最小化した bundle.min.css および bundle.min.js を参照しております、
-* 変更する場合は、開発用ディレクトリのソースを変更した後に、以下のコマンドで結合・最小化をしてください。詳細は package.json および gulpfile.js を確認してください。 (JavaScript の最小化は gulp プラグインが ES6 未対応のため babili を使用)
+* 変更する場合は、開発用ディレクトリのソースを変更した後に、以下のコマンドで結合・最小化をしてください。詳細は gulpfile.js を確認してください。 (JavaScript の最小化は gulp プラグインが ES6 未対応のため babili を使用)
 
     ```
     $ npm run build
     ```
 
-#### JSDoc
-* 以下のコマンドで JSDoc を作成できます。詳細は package.json を確認してください。
+##### JSDoc
+* 以下のコマンドで out ディレクトリ配下に JSDoc を作成できます。 (git および アプリのプッシュ対象外に設定)
 
     ```
     $ npm run doc
     ```
+    
     
