@@ -132,12 +132,12 @@ qa-chatbot
 ├── .gitignore
 ├── README.md                       本書
 ├── app.js                          アプリ
-├── gulpfile.js                     開発用タスク
+├── gulpfile.js                     gulpfile
 ├── docs                            README.md が参照する図表などの文書を保存
 ├── install
-│   ├── answer.json                 データ
-│   ├── classifier.csv              NLC トレーニングのデータ
-│   ├── list.function               Cloudant のマップファンクション
+│   ├── answer.json                 Cloudant に登録するアプリ設定およびコンテンツのデータ
+│   ├── classifier.csv              NLC のトレーニングデータ
+│   ├── list.function               Cloudant に登録する設計文書 (マップファンクション)
 │   └── postinstall.js              インストール後処理
 ├── models
 │   └── qa.js                       モデル
