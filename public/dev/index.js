@@ -20,12 +20,13 @@
 // jQuery を使用する。(DOM 読込み完了時の処理)
 $(function () {
     // タグ
-    const questionTag = '<div class="row"><div class="col-xs-11"><p class="balloon-right"><%= s %></p></div></div>';
-    const answerTag = '<div class="row"><div class="col-xs-11"><p class="balloon-left"><%= s %><%= s %></p></div></div>';
-    const recordIconTag = {
-        false: '<span class="glyphicon glyphicon-record" aria-hidden="true"></span>',
-        true: '<span class="glyphicon glyphicon-stop" aria-hidden="true"></span>'
-    };
+    const
+        questionTag = '<div class="row"><div class="col-xs-11"><p class="balloon-right"><%= s %></p></div></div>',
+        answerTag = '<div class="row"><div class="col-xs-11"><p class="balloon-left"><%= s %><%= s %></p></div></div>',
+        recordIconTag = {
+            false: '<span class="glyphicon glyphicon-record" aria-hidden="true"></span>',
+            true: '<span class="glyphicon glyphicon-stop" aria-hidden="true"></span>'
+        };
 
     /// 定型メッセージ
     const messages = {
@@ -41,10 +42,11 @@ $(function () {
         || null;
 
     // ID セレクターを取得する。
-    const conversationFieldId = $('#conversationFieldId');
-    const qId = $('#qId');
-    const sttId = $('#sttId');
-    const searchFormId = $('#searchFormId');
+    const
+        conversationFieldId = $('#conversationFieldId'),
+        qId = $('#qId'),
+        sttId = $('#sttId'),
+        searchFormId = $('#searchFormId');
 
     // Watson Speech API コンテキスト
     let watsonSpeechContext = {};
@@ -69,8 +71,7 @@ $(function () {
     // テンプレートタグにパラメータを付与する。
     function formatTag(tag, s) {
         const array = tag.split('<%= s %>');
-        let j = 0;
-        let result = array[0];
+        let j = 0, result = array[0];
         for (let i = 1, length = array.length; i < length; i++) {
             result += s[j++] + array[i];
         }
@@ -108,13 +109,12 @@ $(function () {
     // 回答を表示する。
     function viewAnswer(value) {
         const message = value.message;
-        const confidence = formatConfidence(value.confidence);
 
         // 回答を読み上げる。
         textToSpeech(message);
 
         // 回答を表示する。
-        conversationFieldId.append(formatTag(answerTag, [message, confidence]));
+        conversationFieldId.append(formatTag(answerTag, [message, formatConfidence(value.confidence)]));
 
         // 最下部までスクロールする。
         window.scrollTo(0, document.body.scrollHeight);
@@ -135,14 +135,16 @@ $(function () {
     }
 
     // Waston に質問する。
-    function ask(url, text) {
+    function ask(url, text, disableAnimeFlg) {
         //  アニメーション ON
-        anime(true);
+        if (!disableAnimeFlg) {
+            anime(true);
+        }
 
         $.ajax({
-            type: "GET",
-            url: url,
-            data: {
+            "type": "GET",
+            "url": url,
+            "data": {
                 "text": text,
                 "now": getNow()
             }
@@ -152,7 +154,9 @@ $(function () {
             viewAnswer(getMessageJson('error_ajax'));
         }).always(function () {
             //  アニメーション OFF
-            anime(false);
+            if (!disableAnimeFlg) {
+                anime(false);
+            }
         });
     }
 
@@ -215,7 +219,6 @@ $(function () {
             // Watson に問い合わせる。
             ask('ask', q);
         }
-
         qId.focus();
 
         // サブミットせずに終了する。(画面遷移しない。)
@@ -235,8 +238,8 @@ $(function () {
 
         // Watson Speech to text と Text to Speech を使用するための情報を取得する。
         $.ajax({
-            type: "GET",
-            url: "/use-watson-speech"
+            "type": "GET",
+            "url": "/use-watson-speech"
         }).done(function (value) {
             // getUserMedia があれば音声認識ボタンを表示する。
             if (getUserMedia) {
@@ -245,12 +248,15 @@ $(function () {
             // 情報をコンテキストにセットする。
             watsonSpeechContext = value;
             // 初回挨拶する。
-            ask('ask-classname', 'general_hello');
+            ask('ask-classname', 'general_hello', true);
             // フォームを表示する。
             searchFormId.show();
         }).fail(function (value) {
-            console.log("error: ", value);
+            console.log('error:', value);
             viewAnswer(getMessageJson('error_watson_auth'));
+        }).always(function () {
+            //  アニメーション OFF
+            anime(false);
         });
     })();
 });
