@@ -111,10 +111,10 @@
 #### 環境変数
 環境変数を設定することでアプリの動作を変更することができます。未設定の場合はデフォルトの動作をします。
 
-|名前             |必須|設定                                                      |デフォルト(未設定)|
-|----------------|----|----------------------------------------------------------|---------------------------|
-|CLASSIFIER_ID   |    |Natural Language Classifier の Classifier ID を指定します。 |最新の Classifier ID を使用します。|
-|CUSTOMIZATION_ID|    |Speech To Text の Customization ID を指定します。           |標準モデルを使用します。      |
+|名前             |必須|デフォルトの動作 (未設定)                                               |設定時の動作                         |       
+|----------------|----|---------------------------------------------------------------------|------------------------------------|
+|CLASSIFIER_ID   |No  |Natural Language Classifier サービス内の最新の Classifier に問合せます。 |設定した Classifier に問合せます。     |
+|CUSTOMIZATION_ID|No  |Speech To Text の標準モデル (ja-JP_BroadbandModel) で音声認識します。    |設定した カスタムモデルで音声認識します。|
 
 #### サービス
 |名前     |プラン|用途  |
@@ -171,16 +171,16 @@ qa-chatbot
   
     |項目    |必須|値         |
     |-------|---|------------|
-    |_id    |◯ |app_settings|
-    |name   |◯ |アプリ名     |
+    |_id    |Yes|app_settings|
+    |name   |Yes|アプリ名     |
     
   - コンテンツ文書構成  
 
     |項目      |必須|説明      |
     |---------|---|-----------|
-    |_id      |◯ |Document ID: NLC のクラス名|
-    |message  |◯ |メッセージ|
-    |questions|   |NLC のテキスト (配列)|
+    |_id      |Yes|Document ID: NLC のクラス名|
+    |message  |Yes|メッセージ|
+    |questions|No |NLC のテキスト (配列)|
 
     > データは install/answer.json です。
 
