@@ -31,7 +31,7 @@ $(function () {
     /// 定型メッセージ
     const messages = {
         "error_ajax": "通信エラーです。申し訳ございませんが最初からやり直してください。",
-        "error_watson_auth": "Watson サービスの認証に失敗しました。申し訳ございませんが最初からやり直してください。",
+        "error_watson_auth": "Watson Speech の認証に失敗しました。音声認識と音声合成 (テキスト読上げ) は使用できません。",
     };
 
     // マイク入力のためのオブジェクトを設定する。チェックのみに使用。(非対応ブラウザを考慮)
@@ -49,7 +49,7 @@ $(function () {
         searchFormId = $('#searchFormId');
 
     // Watson Speech API コンテキスト
-    let watsonSpeechContext = {};
+    let watsonSpeechContext = null;
 
     // 音声認識中フラグ
     let recording = false;
@@ -98,12 +98,14 @@ $(function () {
 
     // テキストを読み上げる。
     function textToSpeech(text) {
-        const param = {
-            "text": text,
-            "token": watsonSpeechContext.tts.token,
-            "voice": watsonSpeechContext.tts.voice
-        };
-        WatsonSpeech.TextToSpeech.synthesize(param);
+        if (watsonSpeechContext) {
+            const param = {
+                "text": text,
+                "token": watsonSpeechContext.tts.token,
+                "voice": watsonSpeechContext.tts.voice
+            };
+            WatsonSpeech.TextToSpeech.synthesize(param);
+        }
     }
 
     // 回答を表示する。
@@ -189,6 +191,16 @@ $(function () {
                 recording = false;
                 sttId.html(recordIconTag[recording]);
             });
+
+            stream.on('data', function (data) {
+                if (data.results[0] && data.results[0].final) {
+                    stream.stop();
+                    console.log('stop listening.');
+                    recording = false;
+                    sttId.html(recordIconTag[recording]);
+                }
+            });
+
         } else {
             if (stream) {
                 stream.stop();
@@ -239,7 +251,7 @@ $(function () {
         // Watson Speech to text と Text to Speech を使用するための情報を取得する。
         $.ajax({
             "type": "GET",
-            "url": "/use-watson-speech"
+            "url": "/watson-speech"
         }).done(function (value) {
             // getUserMedia があれば音声認識ボタンを表示する。
             if (getUserMedia) {
@@ -247,15 +259,16 @@ $(function () {
             }
             // 情報をコンテキストにセットする。
             watsonSpeechContext = value;
-            // 初回挨拶する。
-            ask('ask-classname', 'general_hello', true);
-            // フォームを表示する。
-            searchFormId.show();
         }).fail(function (value) {
             console.log('error:', value);
             viewAnswer(getMessageJson('error_watson_auth'));
         }).always(function () {
+            // 初回挨拶する。
+            ask('class-name', 'general_hello', true);
+            // フォームを表示する。
+            searchFormId.show();
             //  アニメーション OFF
+            searchFormId.show();
             anime(false);
         });
     })();

@@ -1,6 +1,6 @@
 {
   "name": "qa-chatbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Q&A Chatbot",
   "private": true,
   "engines": {
@@ -8,21 +8,21 @@
   },
   "scripts": {
     "build": "gulp; babili public/dist/bundle.js -o public/bundle.min.js",
-    "doc": "jsdoc *.js routes/*.js models/*.js utils/*.js install/*.js public/dev/*.js",
+    "doc": "jsdoc -c jsdoc-conf.json *.js routes/*.js utils/*.js install/*.js public/dev/*.js",
     "postinstall": "node install/postinstall.js",
     "start": "node app.js"
   },
   "dependencies": {
     "body-parser": "~1.17.2",
     "cfenv": "~1.0.4",
-    "cloudant": "~1.8.0",
     "ejs": "~2.5.6",
     "express": "~4.15.3",
     "morgan": "~1.8.2",
     "multer": "~1.2.1",
+    "request": "^2.81.0",
     "serve-favicon": "~2.4.3",
     "vcap_services": "~0.3.4",
-    "watson-developer-cloud": "~2.32.1"
+    "watson-nlc-qa": "^1.0.0"
   },
   "devDependencies": {
     "babili": "~0.1.4",
@@ -30,6 +30,6 @@
     "gulp": "~3.9.1",
     "gulp-clean-css": "~3.4.2",
     "gulp-concat": "~2.6.1",
-    "jsdoc": "~3.4.3"
+    "jsdoc": "~3.5.3"
   }
 }

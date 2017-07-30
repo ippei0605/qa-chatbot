@@ -189,8 +189,8 @@ qa-chatbot
 |-------------------|------|------------------------|
 |/                  |GET   |Chatbot 画面を表示します。|
 |/ask               |GET   |Natural Language Classifier で質問をクラス分類して、回答を返します。|
-|/ask-classname     |GET   |クラス名指定により回答を返します。(定型文に使用)|
-|/use-watson-speech |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返します。|
+|/class-name        |GET   |クラス名指定により回答を返します。(定型文に使用)|
+|/watson-speech     |GET   |Watson Speech to Text と Text to Speech のトークンを取得して、JSON を返します。|
 
 ### 開発支援
 このアプリを改造するためのヒントを示します。 アプリは Node.js で記述しておりますので、まずは package.json でスクリプトや依存モジュールを確認してください。
