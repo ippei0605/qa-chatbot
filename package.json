@@ -22,7 +22,7 @@
     "request": "^2.81.0",
     "serve-favicon": "~2.4.3",
     "vcap_services": "~0.3.4",
-    "watson-nlc-qa": "^1.0.0"
+    "watson-nlc-qa": "^1.0.2"
   },
   "devDependencies": {
     "babili": "~0.1.4",
